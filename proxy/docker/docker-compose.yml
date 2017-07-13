@@ -1,0 +1,58 @@
+version: '2'
+services: 
+  node1:
+    build:
+      context: '../server1/'
+      dockerfile: Dockerfile
+    image: node_app1
+    container_name: nodejs1
+    hostname: nodejs1
+    volumes: 
+      - ../server1:/opt/app
+    expose:
+      - "80"
+    # command: tail -f /dev/null && node /opt/app/app.js
+    command: node /opt/app/app.js
+
+  node2:
+    build:
+      context: '../server2/'
+      dockerfile: Dockerfile
+    image: node_app2
+    container_name: nodejs2
+    hostname: nodejs2
+    volumes: 
+      - ../server2:/opt/app
+    expose:
+      - "80"
+    command: node /opt/app/app.js
+
+  node3:
+    build:
+      context: '../server3/'
+      dockerfile: Dockerfile
+    image: node_app3
+    container_name: nodejs3
+    hostname: nodejs3
+    volumes: 
+      - ../server3:/opt/app
+    expose:
+      - "80"
+    command: node /opt/app/app.js
+
+  proxy:
+    build:
+      context: '../server4/'
+      dockerfile: Dockerfile
+    image: node_app4
+    container_name: proxy
+    hostname: proxy
+    ports:
+      - 80:80
+    volumes: 
+      - ../server4:/opt/app
+    links:
+      - node1
+      - node2
+      - node3
+    command: node /opt/app/app.js

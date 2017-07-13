@@ -1,0 +1,12 @@
+version: '2'
+services: 
+  memcache:
+    image: memcached
+    container_name: memcached
+    hostname: memcached
+    mem_limit: 1g
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

@@ -1,0 +1,35 @@
+version: '2'
+services:
+  webappa:
+    build: ./webapp
+    container_name: webappa
+    expose: 
+      - "80"
+    environment: 
+      - APP_NAME=webapp-A
+      - APP_MESSAGE=This is the A-Team
+  webappb:
+    build: ./webapp
+    container_name: webappb
+    expose: 
+      - "80"
+    environment: 
+      - APP_NAME=webapp-B
+      - APP_MESSAGE=And my name is <b>B.A. Barrakus</b>!!!!!
+  webappc:
+    build: ./webapp
+    container_name: webappc
+    expose: 
+      - "80"
+    environment: 
+      - APP_NAME=webapp-C
+      - APP_MESSAGE=There is no C-Team ;( 
+  proxy:
+    build: ./proxy
+    container_name: proxy
+    ports: 
+      - "8080:80"
+    links: 
+      - webappa
+      - webappb
+      - webappc

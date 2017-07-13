@@ -1,0 +1,36 @@
+version: '2'
+services: 
+  node:
+    build:
+      context: './'
+      dockerfile: Dockerfile
+    image: node_app
+    container_name: nodejs
+    hostname: nodejs
+    env_file:
+      - ../environment/app.env
+    volumes: 
+      - ../../:/opt/app
+    ports:
+      - 3000:3000
+      - 8080:3000
+    command: node /opt/app/app.js
+    networks:
+      - memcache_mynetwork
+      - node
+
+  mysql:
+    image: mysql
+    container_name: mysql
+    hostname: mysql
+    env_file:
+      - ../environment/db.env
+    networks:
+      - node
+    ports:
+      - 3001:3306
+
+networks:
+  node:
+  memcache_mynetwork:
+    external: true
